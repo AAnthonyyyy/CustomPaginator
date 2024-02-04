@@ -1,14 +1,10 @@
 package com.hgm.custompaging
 
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 /**
@@ -30,7 +26,7 @@ class MainViewModel : ViewModel() {
                   )
             },
             onRequest = { nextPage ->
-                  repository.getItems(nextPage, 20)
+                  repository.getPosts(nextPage, 20)
             },
             getNextKey = {
                   state.page + 1
@@ -41,7 +37,7 @@ class MainViewModel : ViewModel() {
             },
             onSuccess = { newItems, newKey ->
                   state = state.copy(
-                        items = state.items + newItems,
+                        posts = state.posts + newItems,
                         page = newKey,
                         endReached = newItems.isEmpty()
                   )
@@ -55,15 +51,14 @@ class MainViewModel : ViewModel() {
 
       fun loadNextItem() {
             viewModelScope.launch {
-                  paginator.loadNextItem()
+                  paginator.load()
             }
       }
-
 }
 
 data class UIState(
       val isLoading: Boolean = false,
-      val items: List<Item> = emptyList(),
+      val posts: List<Post> = emptyList(),
       val error: String? = null,
       val endReached: Boolean = false,
       val page: Int = 0

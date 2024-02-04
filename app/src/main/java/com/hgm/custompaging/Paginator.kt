@@ -7,7 +7,7 @@ package com.hgm.custompaging
  **/
 interface Paginator<Key, Item> {
 
-      suspend fun loadNextItem()
+      suspend fun load()
 
       fun reset()
 }

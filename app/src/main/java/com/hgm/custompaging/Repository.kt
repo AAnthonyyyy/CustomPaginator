@@ -10,13 +10,13 @@ import kotlinx.coroutines.delay
 class Repository {
 
       private val remoteDataSource = (1..100).map {
-            Item(
+            Post(
                   title = "Item $it",
                   desc = "Description $it"
             )
       }
 
-      suspend fun getItems(page: Int, pageSize: Int): Result<List<Item>> {
+      suspend fun getPosts(page: Int, pageSize: Int): Result<List<Post>> {
             // 模拟网络延迟
             delay(2000L)
 

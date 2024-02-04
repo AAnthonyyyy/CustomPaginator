@@ -5,7 +5,7 @@ package com.hgm.custompaging
  * @created：2024/2/2 0002
  * @description：
  **/
-data class Item(
+data class Post(
       val title: String,
       val desc: String
 )

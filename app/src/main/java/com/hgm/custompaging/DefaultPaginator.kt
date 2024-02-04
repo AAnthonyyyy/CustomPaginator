@@ -17,24 +17,32 @@ class DefaultPaginator<Key, Item>(
       private var currentKey = initialKey
       private var isMakingRequest = false
 
-      override suspend fun loadNextItem() {
+      // 加载下一页
+      override suspend fun load() {
+            // 判断当前是否正在请求中
             if(isMakingRequest) {
                   return
             }
+
+            // 开始请求，更改为加载状态
             isMakingRequest = true
             onLoadUpdated(true)
             val result = onRequest(currentKey)
             isMakingRequest = false
             val items = result.getOrElse {
+                  // 请求出现错误走这里
                   onError(it)
                   onLoadUpdated(false)
                   return
             }
+
+            // 更新Key，返回请求结果出去
             currentKey = getNextKey(items)
             onSuccess(items, currentKey)
             onLoadUpdated(false)
       }
 
+      // 重置
       override fun reset() {
             currentKey = initialKey
       }
